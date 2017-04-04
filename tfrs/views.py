@@ -2,6 +2,7 @@ import json
 
 from django.http import HttpResponse
 from django.shortcuts import render
+from tfrs.models import TradingPartner, TransactionType
 
 def dashboard(request):
     table_data = [
@@ -38,7 +39,11 @@ def account_activity(request):
     return render(request, 'account-activity.html', {'table_data': json.dumps(table_data)})
 
 def new_transaction(request):
-    return render(request, 'new-transaction.html', {})
+    data = {
+        'partners': TradingPartner.objects.all(),
+        'transactionTypes': TransactionType.objects.all()
+    }
+    return render(request, 'new-transaction.html', {'data':data, 'hi': 'hello world'})
 
 def transaction_summary(request):
     transaction = {
